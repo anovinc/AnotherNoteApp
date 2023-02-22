@@ -1,6 +1,7 @@
 package com.example.noteapp.di
 
 import com.example.noteapp.featureNote.domain.repository.NoteRepository
+import com.example.noteapp.featureNote.domain.useCase.AddNoteUseCase
 import com.example.noteapp.featureNote.domain.useCase.DeleteNoteUseCase
 import com.example.noteapp.featureNote.domain.useCase.GetNotesUseCase
 import com.example.noteapp.featureNote.domain.useCase.NoteUseCases
@@ -19,7 +20,8 @@ object DomainModule {
   fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
     return NoteUseCases(
       getNotesUseCase = GetNotesUseCase(repository),
-      deleteNoteUseCase = DeleteNoteUseCase(repository)
+      deleteNoteUseCase = DeleteNoteUseCase(repository),
+      addNoteUseCase = AddNoteUseCase(repository)
     )
   }
 }
