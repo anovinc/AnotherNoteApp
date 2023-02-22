@@ -1,6 +1,8 @@
 package com.example.noteapp.featureNote.presentation.notes
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.noteapp.featureNote.domain.model.Note
@@ -14,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases) : ViewModel() {
   
-  var state = mutableStateOf(NotesState())
+  var state by mutableStateOf(NotesState())
     private set
   
   private var recentlyDeletedNote: Note? = null
@@ -26,13 +28,13 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
     when (event) {
       is NotesEvent.Order -> {
         //If user clicks on the same radio button that is already checked we want do nothing
-        if (state.value.noteOrder::class == event.noteOrder::class && state.value.noteOrder.order == event.noteOrder.order) {
+        if (state.noteOrder::class == event.noteOrder::class && state.noteOrder.order == event.noteOrder.order) {
           return
         }
         getNotes(event.noteOrder)
       }
       is NotesEvent.ToggleOrderSection -> {
-        state.value = state.value.copy(isOrderSectionVisible = !state.value.isOrderSectionVisible)
+        state = state.copy(isOrderSectionVisible = !state.isOrderSectionVisible)
       }
       is NotesEvent.DeleteNote -> {
         viewModelScope.launch {
@@ -52,7 +54,7 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
   private fun getNotes(noteOrder: NoteOrder) {
     viewModelScope.launch {
       val notes = notesUseCases.getNotesUseCase(noteOrder)
-      state.value = state.value.copy(notes = notes, noteOrder = noteOrder)
+      state = state.copy(notes = notes, noteOrder = noteOrder)
     }
   }
 }
