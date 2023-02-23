@@ -14,11 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.noteapp.R
+import com.example.noteapp.featureNote.domain.model.Note
+import com.example.noteapp.featureNote.domain.util.NoteOrder
+import com.example.noteapp.featureNote.presentation.notes.components.NoteItem
 import com.example.noteapp.featureNote.presentation.notes.components.OrderSection
+import com.example.noteapp.ui.theme.RedOrange
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -61,6 +68,12 @@ fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
           }
         )
       }
+      NoteItem(
+        note = Note(
+          "test", "idemo easj esae jsahe saeh ashhsae hah ehahe hsa hesah " +
+            "ejfhdshhfdhsfhhdsffhdhdfshfhdsfhdshfhdshfhdshfdshfhsdhfhdshfdshfdhdshfhshfdfhsdhfhsdfhsdhfshdfhsdhfhsfhsdhfhdsfhdshfhsdhfshdfhsdhhdfhsdhfhfdshfsha", 232131321L, R.color.dark_gray, 0
+        )
+      ) {}
     }
   }
 }
