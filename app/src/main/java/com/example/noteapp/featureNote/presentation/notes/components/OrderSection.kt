@@ -34,13 +34,13 @@ fun OrderSection(
     }
     Row(modifier = Modifier.fillMaxWidth()) {
       DefaultRadioButton(title = "Ascending",
-        selected = noteOrder is NoteOrder.Title,
+        selected = noteOrder.order is OrderType.Ascending,
         onSelect = { onOrderChange(noteOrder.copy(OrderType.Ascending)) })
       
       Spacer(modifier = Modifier.width((8.dp)))
       
       DefaultRadioButton(title = "Descending",
-        selected = noteOrder is NoteOrder.Date,
+        selected = noteOrder.order is OrderType.Descending,
         onSelect = { onOrderChange(noteOrder.copy(OrderType.Descending)) })
       Spacer(modifier = Modifier.width((8.dp)))
     }
