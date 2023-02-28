@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -29,7 +28,9 @@ fun NoteItem(
     modifier = modifier
       .fillMaxWidth()
   ) {
-    Column(modifier = modifier.padding(horizontal = 8.dp).padding(top = 12.dp)) {
+    Column(modifier = modifier
+      .padding(horizontal = 8.dp)
+      .padding(top = 12.dp)) {
       Text(
         text = note.title.capitalize(),
         style = MaterialTheme.typography.h5,
@@ -50,4 +51,5 @@ fun NoteItem(
       }
     }
   }
+  Spacer(modifier = Modifier.height(12.dp))
 }

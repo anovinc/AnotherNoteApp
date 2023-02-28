@@ -1,10 +1,7 @@
 package com.example.noteapp.di
 
 import com.example.noteapp.featureNote.domain.repository.NoteRepository
-import com.example.noteapp.featureNote.domain.useCase.AddNoteUseCase
-import com.example.noteapp.featureNote.domain.useCase.DeleteNoteUseCase
-import com.example.noteapp.featureNote.domain.useCase.GetNotesUseCase
-import com.example.noteapp.featureNote.domain.useCase.NoteUseCases
+import com.example.noteapp.featureNote.domain.useCase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +18,8 @@ object DomainModule {
     return NoteUseCases(
       getNotesUseCase = GetNotesUseCase(repository),
       deleteNoteUseCase = DeleteNoteUseCase(repository),
-      addNoteUseCase = AddNoteUseCase(repository)
+      addNoteUseCase = AddNoteUseCase(repository),
+      getNoteUseCase = GetNoteUseCase(repository)
     )
   }
 }

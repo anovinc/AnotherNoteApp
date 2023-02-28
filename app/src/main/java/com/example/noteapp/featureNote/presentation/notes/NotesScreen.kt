@@ -1,32 +1,25 @@
 package com.example.noteapp.featureNote.presentation.notes
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.provider.ContactsContract.CommonDataKinds.Note
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.example.noteapp.R
-import com.example.noteapp.featureNote.domain.model.Note
-import com.example.noteapp.featureNote.domain.util.NoteOrder
 import com.example.noteapp.featureNote.presentation.notes.components.NoteItem
 import com.example.noteapp.featureNote.presentation.notes.components.OrderSection
-import com.example.noteapp.ui.theme.RedOrange
-
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -35,7 +28,19 @@ fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
   val scaffoldState = rememberScaffoldState()
   val scope = rememberCoroutineScope()
   
-  Scaffold(scaffoldState = scaffoldState) {
+  Scaffold(
+    scaffoldState = scaffoldState,
+    floatingActionButton = {
+      FloatingActionButton(
+        onClick = { },
+        backgroundColor = MaterialTheme.colors.primary
+      ) {
+        Icon(
+          imageVector = Icons.Default.Add,
+          contentDescription = "Add note"
+        )
+      }
+    }) {
     Column(
       modifier = Modifier
         .fillMaxSize()
@@ -44,8 +49,9 @@ fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
         )
     ) {
       Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment
-          .CenterVertically
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
       ) {
         Text(text = "You notes", style = MaterialTheme.typography.h4)
         IconButton(onClick = {
@@ -55,25 +61,35 @@ fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
         }
       }
       Spacer(modifier = Modifier.height(12.dp))
+      
       AnimatedVisibility(
         visible = state.isOrderSectionVisible
       ) {
-        OrderSection(
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        OrderSection(modifier = Modifier
+          .fillMaxWidth()
+          .padding(vertical = 16.dp),
           noteOrder = state.noteOrder,
           onOrderChange = {
             viewModel.onEvent(NotesEvent.Order(it))
-          }
-        )
+          })
       }
-      NoteItem(
-        note = Note(
-          "test", "idemo easj esae jsahe saeh ashhsae hah ehahe hsa hesah " +
-            "ejfhdshhfdhsfhhdsffhdhdfshfhdsfhdshfhdshfhdshfdshfhsdhfhdshfdshfdhdshfhshfdfhsdhfhsdfhsdhfshdfhsdhfhsfhsdhfhdsfhdshfhsdhfshdfhsdhhdfhsdhfhfdshfsha", 232131321L, R.color.dark_gray, 0
-        )
-      ) {}
+      LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(state.notes) { note ->
+          NoteItem(note = note,
+            onDeleteClick = {
+              viewModel.onEvent(NotesEvent.DeleteNote(note))
+              scope.launch {
+                val result = scaffoldState.snackbarHostState.showSnackbar("Note deleted", actionLabel = "Undo")
+                if (result == SnackbarResult.ActionPerformed) {
+                  viewModel.onEvent(NotesEvent.RestoreNote)
+                }
+              }
+            },
+            modifier = Modifier
+              .fillMaxWidth()
+              .clickable { })
+        }
+      }
     }
   }
 }
