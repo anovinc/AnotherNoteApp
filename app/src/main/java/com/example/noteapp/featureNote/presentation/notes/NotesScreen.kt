@@ -17,13 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.noteapp.featureNote.presentation.notes.components.NoteItem
 import com.example.noteapp.featureNote.presentation.notes.components.OrderSection
+import com.example.noteapp.featureNote.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
+fun NotesScreen(navController: NavController,viewModel: NotesViewModel = hiltViewModel()) {
   val state = viewModel.state
   val scaffoldState = rememberScaffoldState()
   val scope = rememberCoroutineScope()
@@ -32,7 +34,7 @@ fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
     scaffoldState = scaffoldState,
     floatingActionButton = {
       FloatingActionButton(
-        onClick = { },
+        onClick = { navController.navigate(Screen.AddEditNotesScreen.route) },
         backgroundColor = MaterialTheme.colors.primary
       ) {
         Icon(
@@ -87,7 +89,7 @@ fun NotesScreen(viewModel: NotesViewModel = hiltViewModel()) {
             },
             modifier = Modifier
               .fillMaxWidth()
-              .clickable { })
+              .clickable { navController.navigate(Screen.AddEditNotesScreen.route + "?noteId=${note.id}&noteColor=${note.color}")})
         }
       }
     }
