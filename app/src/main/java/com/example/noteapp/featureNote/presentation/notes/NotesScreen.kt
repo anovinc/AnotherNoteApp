@@ -1,7 +1,6 @@
 package com.example.noteapp.featureNote.presentation.notes
 
 import android.annotation.SuppressLint
-import android.provider.ContactsContract.CommonDataKinds.Note
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,9 +26,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun NotesScreen(navController: NavController,viewModel: NotesViewModel = hiltViewModel()) {
   val state = viewModel.state
+  viewModel.getNotes(state.noteOrder)
   val scaffoldState = rememberScaffoldState()
   val scope = rememberCoroutineScope()
-  
   Scaffold(
     scaffoldState = scaffoldState,
     floatingActionButton = {

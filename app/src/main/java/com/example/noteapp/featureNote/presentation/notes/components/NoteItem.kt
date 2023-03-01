@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -24,7 +24,7 @@ fun NoteItem(
   Card(
     elevation = 4.dp,
     shape = RoundedCornerShape(cornerRadius),
-    backgroundColor = colorResource(id = note.color),
+    backgroundColor = Color(note.color),
     modifier = modifier
       .fillMaxWidth()
   ) {

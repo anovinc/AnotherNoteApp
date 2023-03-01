@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.noteapp.featureNote.domain.model.Note
 import com.example.noteapp.featureNote.presentation.addEditNote.components.TransparentHintTextField
+import com.example.noteapp.featureNote.presentation.util.Screen
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -52,7 +53,7 @@ fun AddEditNoteScreen(
           scaffoldState.snackbarHostState.showSnackbar(message = event.message)
         }
         is UiEvent.SaveNote -> {
-          navController.navigateUp()
+          navController.popBackStack(Screen.NotesScreen.route, false)
         }
       }
     }

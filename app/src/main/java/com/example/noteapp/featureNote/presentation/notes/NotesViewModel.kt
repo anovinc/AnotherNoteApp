@@ -18,12 +18,12 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
   
   var state by mutableStateOf(NotesState())
     private set
-  
   private var recentlyDeletedNote: Note? = null
   
   init {
-    getNotes(NoteOrder.Date(OrderType.Descending))
+    getNotes(NoteOrder.Title(OrderType.Ascending))
   }
+  
   fun onEvent(event: NotesEvent) {
     when (event) {
       is NotesEvent.Order -> {
@@ -51,7 +51,7 @@ class NotesViewModel @Inject constructor(private val notesUseCases: NoteUseCases
     }
   }
   
-  private fun getNotes(noteOrder: NoteOrder) {
+  fun getNotes(noteOrder: NoteOrder) {
     viewModelScope.launch {
       val notes = notesUseCases.getNotesUseCase(noteOrder)
       state = state.copy(notes = notes, noteOrder = noteOrder)
